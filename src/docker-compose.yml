@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  identity-provider:
+    image: identity-provider:dev
+    container_name: IdentityProvider-Development
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5001:80"
+    build:
+      context: .
+      dockerfile: Web/IdentityProvider/Dockerfile

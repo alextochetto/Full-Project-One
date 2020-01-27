@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/images
+[B|b]in
+[O|o]bj
+/src/Web/IdentityProvider/wwwroot/lib
+/.idea
+*.rsa
