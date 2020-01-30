@@ -9,3 +9,6 @@
 /src/Web/IdentityProvider/wwwroot/lib
 /.idea
 *.rsa
+*.crt
+*.pfx
+*.pem

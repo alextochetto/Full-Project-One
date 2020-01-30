@@ -7,7 +7,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "5001:80"
+      - "5006:80"
     build:
       context: .
       dockerfile: Web/IdentityProvider/Dockerfile
