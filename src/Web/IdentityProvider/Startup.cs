@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Security.Cryptography.X509Certificates;
+using IdentityServer.Extensions;
 
 namespace IdentityProvider
 {
@@ -48,10 +49,26 @@ namespace IdentityProvider
             //var certCollection = certStore.Certificates.Find(X509FindType.FindByThumbprint, certThumbPrint, false);
             //certStore.Close();
 
+            #region Thumbprint
             if (_webHostEnvironment.IsDevelopment())
                 identityServer.AddDeveloperSigningCredential();
             else
                 identityServer.AddSigningCredential("4DFF9B8EBB5314B9A62EFA72DA8B4D7658231C05", StoreLocation.CurrentUser, NameType.Thumbprint);
+            #endregion
+
+            #region Uso do *.pfx direto
+            //if (_webHostEnvironment.IsDevelopment())
+            //    identityServer.AddDeveloperSigningCredential();
+            //else
+            //    identityServer.AddSigningCredential(new X509Certificate2("certificate.pfx", "987654321")); 
+            #endregion
+
+            #region Forma de uso maqueado
+            //if (_webHostEnvironment.IsDevelopment())
+            //    identityServer.AddDeveloperSigningCredential();
+            //else
+            //    identityServer.AddCustomSigningCredential();
+            #endregion
 
             services.AddAuthentication();
         }
