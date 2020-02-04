@@ -34,20 +34,10 @@ namespace IdentityProvider
             //identityServer.AddInMemoryIdentityResources(Configuration.Config.Ids);
             //identityServer.AddInMemoryApiResources(Configuration.Config.Apis);
             //identityServer.AddInMemoryClients(Configuration.Config.Clients);
-            //.AddAspNetIdentity<ApplicationUser>();
 
             identityServer.AddInMemoryIdentityResources(_configuration.GetSection(nameof(IdentityResources)));
             identityServer.AddInMemoryApiResources(_configuration.GetSection(nameof(ApiResource)));
             identityServer.AddInMemoryClients(_configuration.GetSection(nameof(Client)));
-
-            //var certThumbPrint = "‎‎CF4FBD5BE8CBEADF923DBE65ADC6780339914ADA";
-            //var certStore = new X509Store(StoreName.My, StoreLocation.CurrentUser);
-            // Try to open the store.
-
-            //certStore.Open(OpenFlags.ReadOnly);
-            // Find the certificate that matches the thumbprint.
-            //var certCollection = certStore.Certificates.Find(X509FindType.FindByThumbprint, certThumbPrint, false);
-            //certStore.Close();
 
             #region Thumbprint
             if (_webHostEnvironment.IsDevelopment())
