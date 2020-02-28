@@ -1,12 +1,14 @@
-﻿using IdentityServer4.Configuration;
-using IdentityServer4.Models;
+﻿using IdentityProvider.Seeds;
+using IdentityServer4.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
-using IdentityServer.Extensions;
 
 namespace IdentityProvider
 {
@@ -31,13 +33,6 @@ namespace IdentityProvider
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
             });
-            //identityServer.AddInMemoryIdentityResources(Configuration.Config.Ids);
-            //identityServer.AddInMemoryApiResources(Configuration.Config.Apis);
-            //identityServer.AddInMemoryClients(Configuration.Config.Clients);
-
-            identityServer.AddInMemoryIdentityResources(_configuration.GetSection(nameof(IdentityResources)));
-            identityServer.AddInMemoryApiResources(_configuration.GetSection(nameof(ApiResource)));
-            identityServer.AddInMemoryClients(_configuration.GetSection(nameof(Client)));
 
             #region Thumbprint
             if (_webHostEnvironment.IsDevelopment())
@@ -60,11 +55,37 @@ namespace IdentityProvider
             //    identityServer.AddCustomSigningCredential();
             #endregion
 
+            var connectionString = _configuration.GetConnectionString("DefaultConnection");
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
+            identityServer.AddConfigurationStore(options =>
+            {
+                options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
+                    sqlServerOptionsAction: sqlOptions =>
+                    {
+                        sqlOptions.MigrationsAssembly(migrationsAssembly);
+                        sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                    });
+            })
+            .AddOperationalStore(options =>
+            {
+                options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
+                    sqlServerOptionsAction: sqlOptions =>
+                    {
+                        sqlOptions.MigrationsAssembly(migrationsAssembly);
+                        sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                    });
+            });
+
             services.AddAuthentication();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.RunMigration();
+            app.SeeClient();
+            app.SeedApiResource();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
