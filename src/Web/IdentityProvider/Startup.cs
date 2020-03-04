@@ -2,6 +2,7 @@
 using IdentityServer4.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -55,6 +56,25 @@ namespace IdentityProvider
             //    identityServer.AddCustomSigningCredential();
             #endregion
 
+            #region Identity configuration
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
+
+            //services.AddIdentity<ApplicationUser, IdentityRole>(config =>
+            //{
+            //    config.SignIn.RequireConfirmedEmail = true;
+            //})
+            //.AddRoles<IdentityRole>()
+            //.AddEntityFrameworkStores<AutenticacaoDbContext>()
+            //.AddDefaultUI(UIFramework.Bootstrap4)
+            //.AddDefaultTokenProviders();
+
+            // esta configuração é para o token gerado e enviado para o usuário para recuperar a senha e para confirmar o e-mail do seu cadastro
+            // o token é enviado por e-mail para os dois casos
+            //services.Configure<DataProtectionTokenProviderOptions>(o => o.TokenLifespan = TimeSpan.FromHours(1));
+            #endregion
+
+            #region IdentityServer configuration
             var connectionString = _configuration.GetConnectionString("DefaultConnection");
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
@@ -77,7 +97,8 @@ namespace IdentityProvider
                     });
             });
 
-            services.AddAuthentication();
+            services.AddAuthentication(); 
+            #endregion
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
