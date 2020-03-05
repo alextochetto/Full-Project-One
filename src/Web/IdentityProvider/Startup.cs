@@ -1,4 +1,6 @@
-﻿using IdentityProvider.Seeds;
+﻿using IdentityProvider.Data;
+using IdentityProvider.Models;
+using IdentityProvider.Seeds;
 using IdentityServer4.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -57,21 +59,25 @@ namespace IdentityProvider
             #endregion
 
             #region Identity configuration
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
 
-            //services.AddIdentity<ApplicationUser, IdentityRole>(config =>
-            //{
-            //    config.SignIn.RequireConfirmedEmail = true;
-            //})
-            //.AddRoles<IdentityRole>()
-            //.AddEntityFrameworkStores<AutenticacaoDbContext>()
-            //.AddDefaultUI(UIFramework.Bootstrap4)
-            //.AddDefaultTokenProviders();
+            services.AddIdentity<ApplicationUser, IdentityRole>(config =>
+            {
+                config.SignIn.RequireConfirmedEmail = true;
+            })
+            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultUI()
+            .AddDefaultTokenProviders();
+
+            //.AddUserStore<ApplicationUser>()
+            //        .AddRoleStore<IdentityRole>()
+            //        .AddRoleManager<>();
 
             // esta configuração é para o token gerado e enviado para o usuário para recuperar a senha e para confirmar o e-mail do seu cadastro
             // o token é enviado por e-mail para os dois casos
-            //services.Configure<DataProtectionTokenProviderOptions>(o => o.TokenLifespan = TimeSpan.FromHours(1));
+            services.Configure<DataProtectionTokenProviderOptions>(o => o.TokenLifespan = TimeSpan.FromHours(1));
             #endregion
 
             #region IdentityServer configuration
@@ -95,9 +101,10 @@ namespace IdentityProvider
                         sqlOptions.MigrationsAssembly(migrationsAssembly);
                         sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
                     });
-            });
+            })
+            .AddAspNetIdentity<ApplicationUser>();
 
-            services.AddAuthentication(); 
+            services.AddAuthentication();
             #endregion
         }
 
@@ -123,11 +130,13 @@ namespace IdentityProvider
             app.UseStaticFiles();
 
             app.UseRouting();
+            //app.UseAuthentication(); // UseAuthentication not needed -- UseIdentityServer add this
             app.UseIdentityServer();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapRazorPages();
             });
         }
     }

@@ -1,4 +1,4 @@
-﻿using AutoMapper.Configuration;
+﻿using IdentityProvider.Data;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using IdentityServer4.Models;
@@ -17,6 +17,7 @@ namespace IdentityProvider.Seeds
 
             serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
             serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>().Database.Migrate();
+            serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>().Database.Migrate();
         }
 
         public static void SeeClient(this IApplicationBuilder app)
