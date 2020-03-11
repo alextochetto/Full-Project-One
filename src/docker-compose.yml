@@ -11,3 +11,14 @@ services:
     build:
       context: .
       dockerfile: Web/IdentityProvider/Dockerfile
+   
+  payment-api:
+    image: payment-api:dev
+    container_name: api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5002:80"
+    build:
+      context: ./Web/Payment.Api
+      dockerfile: Dockerfile 
