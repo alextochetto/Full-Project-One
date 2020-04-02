@@ -111,8 +111,12 @@ namespace IdentityProvider
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.RunMigration();
+
             app.SeeClient();
+            app.SeedResources();
             app.SeedApiResource();
+
+            app.SeedUser();
 
             if (env.IsDevelopment())
             {

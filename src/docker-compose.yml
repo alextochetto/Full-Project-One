@@ -7,10 +7,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - "5006:80"
+      - "5005:80"
+      - "5006:443"
     build:
-      context: .
-      dockerfile: Web/IdentityProvider/Dockerfile
+      context: ./Web/IdentityProvider
+      dockerfile: Dockerfile
    
   payment-api:
     image: payment-api:dev

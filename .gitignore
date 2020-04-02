@@ -14,3 +14,4 @@
 *.pem
 /src/Web/IdentityProvider/node_modules
 /src/Web/IdentityProvider/package-lock.json
+/src/Web/WebMvc/wwwroot/lib

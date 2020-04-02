@@ -11,6 +11,7 @@ namespace IdentityProvider.Configuration
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
+                new IdentityResources.Email()
             };
 
 
@@ -37,23 +38,24 @@ namespace IdentityProvider.Configuration
                 // interactive ASP.NET Core MVC client
                 new Client
                 {
-                    ClientId = "mvc",
-                    ClientSecrets = { new Secret("secret".Sha256()) },
+                    ClientId = "mvc-client",
+                    ClientSecrets = { new Secret("mvc-client-secret".Sha256()) },
 
-                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
                     RequireConsent = false,
                     RequirePkce = true,
                 
                     // where to redirect to after login
-                    RedirectUris = { "http://localhost:5002/signin-oidc" },
+                    RedirectUris = { "http://localhost:5004/signin-oidc" },
 
                     // where to redirect to after logout
-                    PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
+                    PostLogoutRedirectUris = { "http://localhost:5004/signout-callback-oidc" },
 
                     AllowedScopes = new List<string>
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
                         "payment"
                     },
 

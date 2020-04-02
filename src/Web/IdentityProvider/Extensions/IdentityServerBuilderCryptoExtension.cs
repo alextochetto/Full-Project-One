@@ -7,7 +7,7 @@ using System.IO;
 using System.Reflection;
 using System.Security.Cryptography;
 
-namespace IdentityServer.Extensions
+namespace IdentityProvider.Extensions
 {
     public static class IdentityServerBuilderCryptoExtension
     {

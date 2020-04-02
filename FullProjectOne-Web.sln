@@ -26,6 +26,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMvc", "src\Web\WebMvc\WebMvc.csproj", "{1355CA1B-281B-4D8D-ABDE-CDEE2B026413}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 		{E0010B72-F78F-45F6-A8F7-D06956A9F71C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0010B72-F78F-45F6-A8F7-D06956A9F71C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0010B72-F78F-45F6-A8F7-D06956A9F71C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1355CA1B-281B-4D8D-ABDE-CDEE2B026413}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1355CA1B-281B-4D8D-ABDE-CDEE2B026413}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1355CA1B-281B-4D8D-ABDE-CDEE2B026413}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1355CA1B-281B-4D8D-ABDE-CDEE2B026413}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +63,7 @@ Global
 		{0EDFC95E-0D09-4674-AB89-3C9E02AED269} = {4BFC18D9-7E64-491F-9FD4-22259EDC1F39}
 		{88095CD6-9ED1-48B6-9330-580914413181} = {4BFC18D9-7E64-491F-9FD4-22259EDC1F39}
 		{E0010B72-F78F-45F6-A8F7-D06956A9F71C} = {2EED6FCE-F1C2-47D7-9695-E8C0BDB576CF}
+		{1355CA1B-281B-4D8D-ABDE-CDEE2B026413} = {1FA84725-5D57-4C96-A0D4-C16E8FDA34E1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {99FF05FE-0F0F-4103-AA50-14C8C5BD13B2}
