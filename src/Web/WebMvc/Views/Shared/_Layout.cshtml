@@ -22,6 +22,7 @@
                         <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Login">Login IdentityServer4</a></li>
                         @if (User.Identity.IsAuthenticated)
                         {
+                            <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="RequestApi">API</a></li>
                             <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Logout">Sair</a></li>
                         }
                     </ul>

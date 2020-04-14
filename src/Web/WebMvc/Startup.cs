@@ -75,6 +75,11 @@ namespace WebMvc
                     };
                 });
 
+            services.AddHttpClient("payment", options => 
+            {
+                options.BaseAddress = new Uri("http://localhost:5002");
+            });
+
             services.AddControllersWithViews();
         }
 

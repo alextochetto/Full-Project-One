@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Net.Http;
+using System.Threading.Tasks;
 using WebMvc.Models;
 
 namespace WebMvc.Controllers
@@ -11,10 +13,12 @@ namespace WebMvc.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
+            _httpClientFactory = httpClientFactory;
         }
 
         public IActionResult Index()
@@ -39,6 +43,31 @@ namespace WebMvc.Controllers
             {
                 RedirectUri = "Home/Index"
             }, CookieAuthenticationDefaults.AuthenticationScheme, OpenIdConnectDefaults.AuthenticationScheme);
+        }
+
+        public async Task<IActionResult> RequestApi()
+        {
+            var client = _httpClientFactory.CreateClient("payment");
+
+            var accessToken = HttpContext.GetTokenAsync("access_token").Result;
+            var idToken = HttpContext.GetTokenAsync("id_token").Result;
+
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+
+            var response = await client.GetAsync("/api/payment");
+            if (!response.IsSuccessStatusCode)
+            {
+                return View(nameof(Privacy));
+            }
+
+            var model = new PaymentApiViewModel
+            {
+                AccessToken = accessToken,
+                IdToken = idToken,
+                JsonResult = response.Content.ReadAsStringAsync().Result
+            };
+
+            return View(model);
         }
 
         public IActionResult Privacy()

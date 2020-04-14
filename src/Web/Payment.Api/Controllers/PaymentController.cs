@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Payment.Api.Controllers
 {
@@ -11,7 +12,7 @@ namespace Payment.Api.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new string[] {"value1", "value2", $"Usuário Autenticado: {User.Identity.IsAuthenticated.ToString()}"};
         }
     }
 }
