@@ -4,6 +4,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Payments.AntiCorruption.Facades;
+using Payments.AntiCorruption.Gateways;
+using Payments.Business.Interfaces;
+using Payments.Business.Services;
 
 namespace Payment.Api
 {
@@ -27,6 +31,12 @@ namespace Payment.Api
 
                     options.ApiName = Configuration.GetSection("IdentityServerAuthentication:ApiName").Value;
                 });
+
+            services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<ICreditCardFacade, CreditCardFacade>();
+            services.AddScoped<IDebitCardFacade, DebitCardFacade>();
+            services.AddScoped<IPayPalGateway, PayPalGateway>();
+            services.AddScoped<IEloGateway, EloGateway>();
 
             services.AddControllers();
         }

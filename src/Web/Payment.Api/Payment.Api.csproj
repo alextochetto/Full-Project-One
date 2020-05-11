@@ -13,5 +13,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Services\Payments.AntiCorruption\Payments.AntiCorruption.csproj" />
+    <ProjectReference Include="..\..\Services\Payments.Business\Payments.Business.csproj" />
+  </ItemGroup>
+
 
 </Project>

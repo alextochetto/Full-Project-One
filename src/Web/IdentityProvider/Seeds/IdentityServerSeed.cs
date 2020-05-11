@@ -74,7 +74,76 @@ namespace IdentityProvider.Seeds
 
                     // where to redirect to after login
                     RedirectUris = { "http://localhost:5004/signin-oidc" },
-                    
+
+                    // where to redirect to after logout
+                    PostLogoutRedirectUris = { "http://localhost:5004/signout-callback-oidc" },
+
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        "payment"
+                    },
+
+                    AllowOfflineAccess = true
+                };
+
+                context.Clients.Add(client.ToEntity());
+                context.SaveChanges();
+            }
+            #endregion
+
+            #region PKCE Client GrantType Code
+            if (!context.Clients.Any(_ => _.ClientId == "pkce-client-code"))
+            {
+                var client = new Client
+                {
+                    ClientId = "pkce-client-code",
+                    ClientSecrets = { new Secret("pkce-client-code-secret".Sha256()) },
+
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequireConsent = false,
+                    RequirePkce = true,
+                    AllowPlainTextPkce = false,
+
+                    // where to redirect to after login
+                    RedirectUris = { "http://localhost:5004/signin-oidc" },
+
+                    // where to redirect to after logout
+                    PostLogoutRedirectUris = { "http://localhost:5004/signout-callback-oidc" },
+
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email
+                    },
+
+                    AllowOfflineAccess = true
+                };
+
+                context.Clients.Add(client.ToEntity());
+                context.SaveChanges();
+            }
+            #endregion
+
+            #region PKCE Client GrantType Code And ClientCredentials
+            if (!context.Clients.Any(_ => _.ClientId == "pkce-client"))
+            {
+                var client = new Client
+                {
+                    ClientId = "pkce-client",
+                    ClientSecrets = { new Secret("pkce-client-secret".Sha256()) },
+
+                    AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
+                    RequireConsent = false,
+                    RequirePkce = true,
+                    AllowPlainTextPkce = false,
+
+                    // where to redirect to after login
+                    RedirectUris = { "http://localhost:5004/signin-oidc" },
+
                     // where to redirect to after logout
                     PostLogoutRedirectUris = { "http://localhost:5004/signout-callback-oidc" },
 
