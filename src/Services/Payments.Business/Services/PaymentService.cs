@@ -1,4 +1,5 @@
 ﻿using Architecture.Core.DomainObjects.DTO;
+using Architecture.Core.DomainObjects.Enums;
 using Payments.Business.Interfaces;
 using System.Threading.Tasks;
 
@@ -37,10 +38,10 @@ namespace Payments.Business.Services
             var transaction = string.Empty;
             switch (orderPayment.PaymentType)
             {
-                case Architecture.Core.DomainObjects.Enums.PaymentType.Credit:
+                case PaymentType.Credit:
                     transaction = await _creditCardFacade.Checkout(order, payment);
                     break;
-                case Architecture.Core.DomainObjects.Enums.PaymentType.Debit:
+                case PaymentType.Debit:
                     transaction = await _debitCardFacade.Checkout(order, payment);
                     break;
                 default:

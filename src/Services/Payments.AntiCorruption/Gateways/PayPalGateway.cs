@@ -7,7 +7,7 @@ namespace Payments.AntiCorruption.Gateways
     {
         public async Task<string> CommitTransaction()
         {
-            var random = new Random().Next(2);
+            var random = new Random().Next(3);
 
             if (random.Equals(2))
                 return random.ToString();

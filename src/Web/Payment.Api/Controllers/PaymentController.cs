@@ -26,10 +26,14 @@ namespace Payment.Api.Controllers
         }
 
         [HttpPost]
+        [Route("pay")]
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Pay([FromBody] OrderPayment orderPayment)
         {
+            if (orderPayment is null)
+                return BadRequest(orderPayment);
+
             var result = await _paymentService.Pay(orderPayment);
 
             if (result)
