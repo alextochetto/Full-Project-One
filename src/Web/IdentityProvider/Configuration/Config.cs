@@ -1,5 +1,5 @@
-﻿using IdentityServer4;
-using IdentityServer4.Models;
+﻿using IdentityServer4.Models;
+using IdentityServer4.Test;
 using System.Collections.Generic;
 
 namespace IdentityProvider.Configuration
@@ -24,42 +24,37 @@ namespace IdentityProvider.Configuration
         public static IEnumerable<Client> Clients =>
             new List<Client>
             {
-                // machine to machine client
                 new Client
                 {
                     ClientId = "payment-client",
                     ClientName = "Client Credentials for Payment API",
-                    ClientSecrets = { new Secret("payment-secret".Sha256()) },
-
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    // scopes that client has access to
-                    AllowedScopes = { "payment" }
-                },
-                // interactive ASP.NET Core MVC client
-                new Client
-                {
-                    ClientId = "mvc-client",
-                    ClientSecrets = { new Secret("mvc-client-secret".Sha256()) },
 
-                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
-                    RequireConsent = false,
-                    RequirePkce = true,
-                
-                    // where to redirect to after login
-                    RedirectUris = { "http://localhost:5004/signin-oidc" },
-
-                    // where to redirect to after logout
-                    PostLogoutRedirectUris = { "http://localhost:5004/signout-callback-oidc" },
-
-                    AllowedScopes = new List<string>
+                    ClientSecrets =
                     {
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
-                        IdentityServerConstants.StandardScopes.Email,
+                        new Secret("payment-secret".Sha256())
+                    },
+
+                    AllowedScopes =
+                    {
                         "payment"
                     },
 
-                    AllowOfflineAccess = true
+                    AllowAccessTokensViaBrowser = true,
+                    AllowOfflineAccess = true,
+                    AlwaysSendClientClaims = true,
+                    AlwaysIncludeUserClaimsInIdToken = true
+                }
+            };
+
+        public static List<TestUser> Users =>
+            new List<TestUser>
+            {
+                new TestUser
+                {
+                    SubjectId = "1",
+                    Username = "admin@admin.com",
+                    Password = "Abc@12345"
                 }
             };
     }

@@ -8,6 +8,14 @@
       },
       "applicationUrl": "https://localhost:5006;http://localhost:5005"
     },
+    "IdentityProvider-Staging": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Staging"
+      },
+      "applicationUrl": "https://localhost:5006;http://localhost:5005"
+    },
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": false,

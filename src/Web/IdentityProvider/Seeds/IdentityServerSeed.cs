@@ -24,7 +24,7 @@ namespace IdentityProvider.Seeds
             serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>().Database.Migrate();
         }
 
-        public static void SeeClient(this IApplicationBuilder app)
+        public static void SeedClient(this IApplicationBuilder app)
         {
             using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
 

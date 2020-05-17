@@ -1,6 +1,8 @@
-﻿using IdentityServer4;
+﻿using IdentityProvider.Configuration;
+using IdentityServer4;
 using IdentityServer4.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.IO;
@@ -29,8 +31,11 @@ namespace IdentityProvider.Extensions
             }
         }
 
-        public static IIdentityServerBuilder AddCustomSigningCredential(this IIdentityServerBuilder builder)
+        public static IIdentityServerBuilder AddCustomSecuritySigningCredential(this IIdentityServerBuilder builder, IServiceCollection services)
         {
+            var appSettings = services.BuildServiceProvider()
+                .GetService<IOptionsMonitor<AppSettings>>().CurrentValue;
+
             var signingAlgorithm = IdentityServerConstants.RsaSigningAlgorithm.RS256;
             var rsaSecurityKey = CryptoHelper.CreateRsaSecurityKey();
 
@@ -44,7 +49,7 @@ namespace IdentityProvider.Extensions
             else
                 temporaryRsaKey.Parameters = rsaSecurityKey.Rsa.ExportParameters(includePrivateParameters: true);
 
-            var filename = Path.Combine(Directory.GetCurrentDirectory(), "tempkey.rsa");
+            var filename = Path.Combine(Directory.GetCurrentDirectory(), appSettings.DigitalCertificateRsaFileName);
 
             if (File.Exists(filename))
             {

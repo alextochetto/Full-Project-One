@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using System.IO;
 
 namespace IdentityProvider
 {
@@ -12,9 +14,17 @@ namespace IdentityProvider
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                          .AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+
+                    config.AddEnvironmentVariables();
+                })
                 .ConfigureWebHostDefaults(builder =>
                 {
-                    builder.UseKestrel();
+                    builder.UseContentRoot(Directory.GetCurrentDirectory());
+                    builder.UseIISIntegration();
                     builder.UseStartup<Startup>();
                 });
     }
