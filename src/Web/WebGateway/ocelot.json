@@ -1,19 +1,30 @@
 ﻿{
   "Routes": [
     {
-      "DownstreamPathTemplate": "/todos/{id}",
-      "DownstreamScheme": "https",
+      "UpstreamPathTemplate": "/payment",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamPathTemplate": "/api/payment",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "jsonplaceholder.typicode.com",
-          "Port": 443
+          "Host": "localhost",
+          "Port": 5002
         }
       ],
-      "UpstreamPathTemplate": "/posts/{id}",
-      "UpstreamHttpMethod": ["GET"]
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "IdentityServerKey",
+        "AllowedScopes": ["payment"]
+      },
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "1s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:5000"
+    "BaseUrl": "http://localhost"
   }
 }

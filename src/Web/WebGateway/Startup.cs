@@ -22,20 +22,19 @@ namespace WebGateway
             Configuration = configuration;
         }
         
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthorization();
+            var authenticationProviderKey = Configuration.GetSection("IdentityServerAuthentication:AuthenticationProviderKey").Value;
+            Action<IdentityServerAuthenticationOptions> options = o =>
+            {
+                o.Authority = Configuration.GetSection("IdentityServerAuthentication:Authority").Value;
+                o.ApiName = Configuration.GetSection("IdentityServerAuthentication:ApiName").Value;
+                o.SupportedTokens = SupportedTokens.Both;
+                o.RequireHttpsMetadata = false;
+            };
 
-            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-                .AddIdentityServerAuthentication(options =>
-                {
-                    options.Authority = Configuration.GetSection("IdentityServerAuthentication:Authority").Value;
-                    options.RequireHttpsMetadata = false;
-
-                    options.ApiName = Configuration.GetSection("IdentityServerAuthentication:ApiName").Value;
-                });
+            services.AddAuthentication()
+                .AddIdentityServerAuthentication(authenticationProviderKey, options);
             
             services.AddOcelot();
         }

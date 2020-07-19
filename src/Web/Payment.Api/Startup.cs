@@ -1,4 +1,5 @@
 using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,15 +23,15 @@ namespace Payment.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthorization();
-
+            
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-                .AddIdentityServerAuthentication(options =>
-                {
-                    options.Authority = Configuration.GetSection("IdentityServerAuthentication:Authority").Value;
-                    options.RequireHttpsMetadata = false;
-
-                    options.ApiName = Configuration.GetSection("IdentityServerAuthentication:ApiName").Value;
-                });
+                 .AddIdentityServerAuthentication(options =>
+                 {
+                     options.Authority = Configuration.GetSection("IdentityServerAuthentication:Authority").Value;
+                     options.RequireHttpsMetadata = false;
+            
+                     options.ApiName = Configuration.GetSection("IdentityServerAuthentication:ApiName").Value;
+                 });
 
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<ICreditCardFacade, CreditCardFacade>();
