@@ -4,6 +4,7 @@ using IdentityProvider.Seeds;
 using IdentityServer4.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -137,6 +138,7 @@ namespace IdentityProvider
             //app.UseAuthentication(); // UseAuthentication not needed -- UseIdentityServer add this
             app.UseIdentityServer();
             app.UseAuthorization();
+            app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = SameSiteMode.Lax });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
