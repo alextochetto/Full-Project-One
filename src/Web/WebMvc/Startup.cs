@@ -40,13 +40,12 @@ namespace WebMvc
                 })
                 .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, o =>
                 {
+                    // Enable PKCE(authorization code flow only)
                     o.UsePkce();
 
                     o.Authority = "http://localhost:5005";
                     o.ClientId = "pkce-client";
                     o.ClientSecret = "pkce-client-secret";
-                    // Enable PKCE(authorization code flow only)
-                    o.UsePkce = true;
 
                     o.RequireHttpsMetadata = false;
 
